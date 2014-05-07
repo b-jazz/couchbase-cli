@@ -95,10 +95,13 @@ class Transfer:
     def opt_parse(self, argv):
         opts, rest = self.opt_parser().parse_args(argv[1:])
 
-        if opts.username is None and 'COUCHBASE_USERNAME' in os.environ:
-            setattr(opts, 'username', os.environ['COUCHBASE_USERNAME'])
-        if opts.password is None and 'COUCHBASE_PASSWORD' in os.environ:
-            setattr(opts, 'password', os.environ['COUCHBASE_PASSWORD'])
+        CB_USERNAME = 'CB_REST_USERNAME'
+        CB_PASSWORD = 'CB_REST_PASSWORD'
+
+        if opts.username is None and CB_USERNAME in os.environ:
+            setattr(opts, 'username', os.environ[CB_USERNAME])
+        if opts.password is None and CB_PASSWORD in os.environ:
+            setattr(opts, 'password', os.environ[CB_PASSWORD])
 
         if len(rest) != 2:
             return "error: please provide both a %s and a %s" % \
